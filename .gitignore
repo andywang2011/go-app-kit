@@ -1,0 +1,12 @@
+coverage.out
+cover.out
+.env
+*.test
+*.out
+.DS_Store
+*.exe
+vendor/
+examples/**/main
+examples/**/context
+examples/**/watch
+examples/**/basic
