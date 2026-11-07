@@ -24,7 +24,8 @@ func defaultNacosClientFactory(cfg libNacos.Config) (NacosClient, error) {
 // SyncFromNacos downloads and watches remote config when not skipped. The watch
 // lives for the whole process; use SyncFromNacosContext for a cancellable watch.
 func SyncFromNacos(opts NacosOptions) error {
-	return SyncFromNacosContext(context.Background(), opts)
+	// Process-lifetime helper: Background is intentional (use SyncFromNacosContext for cancel).
+	return SyncFromNacosContext(context.Background(), opts) //nolint:contextcheck
 }
 
 // SyncFromNacosContext downloads remote config and registers a watch that is
