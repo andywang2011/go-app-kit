@@ -113,7 +113,7 @@ func TestSyncFromNacos_BackgroundContext(t *testing.T) {
 func TestSyncFromNacosContext_NilContextDefaults(t *testing.T) {
 	meta, conf := nacosEnv(t)
 	fake := &fakeNacos{content: "a: 1\n"}
-	//nolint:staticcheck // deliberately nil
+	//lint:ignore SA1012 intentional nil context in test
 	err := SyncFromNacosContext(nil, NacosOptions{
 		ConfigPath:    conf,
 		MetaPaths:     []string{meta},
