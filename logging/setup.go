@@ -30,7 +30,7 @@ func Setup() error {
 	return nil
 }
 
-// Close 排空异步队列并关闭输出，进程退出前调用（可重复调用）
+// Close drains the async queue and closes outputs. Call before process exit; safe to call repeatedly.
 func Close() error {
 	return goLog.Close()
 }
