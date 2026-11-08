@@ -50,6 +50,22 @@ func TestValidateSecretsProdOK(t *testing.T) {
 	}
 }
 
+func TestValidateSecretsCustomKeys(t *testing.T) {
+	viper.Reset()
+	defer viper.Reset()
+	viper.Set("mysql.default.password", "ok-mysql-password")
+	viper.Set("jwt.secret", "ok-jwt-secret-value")
+	viper.Set("grpc.auth.token", "ok-grpc-token-value")
+	keys := []string{"mysql.default.password", "jwt.secret", "grpc.auth.token"}
+	if err := ValidateSecrets(def.EnvProduction, keys...); err != nil {
+		t.Fatalf("custom keys: %v", err)
+	}
+	viper.Set("grpc.auth.token", "xxx")
+	if err := ValidateSecrets(def.EnvProduction, keys...); err == nil {
+		t.Fatal("expected placeholder grpc.auth.token to fail")
+	}
+}
+
 func TestApplyEnvOverrides(t *testing.T) {
 	viper.Reset()
 	defer viper.Reset()

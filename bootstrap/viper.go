@@ -29,7 +29,8 @@ func (e *envError) Error() string { return "app.env is not correct: " + e.env }
 // SetupViperFromPath loads conf.yaml, watches changes, validates app.env,
 // applies APP_* overrides, and rejects placeholder secrets for
 // testing/staging/production (which expect Nacos-provided config).
-func SetupViperFromPath(configDir string) error {
+// Optional secretKeys are forwarded to ValidateSecrets; empty uses DefaultProdSecretKeys.
+func SetupViperFromPath(configDir string, secretKeys ...string) error {
 	viper.SetConfigName("conf")
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath(configDir)
@@ -45,5 +46,5 @@ func SetupViperFromPath(configDir string) error {
 	if err := ValidateAppEnv(env); err != nil {
 		return err
 	}
-	return ValidateSecrets(env)
+	return ValidateSecrets(env, secretKeys...)
 }
