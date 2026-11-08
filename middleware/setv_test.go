@@ -16,8 +16,7 @@ func TestSetV_PropagatesRequestIDToContext(t *testing.T) {
 	var got string
 	r.Use(SetV)
 	r.GET("/t", func(c *gin.Context) {
-		id, _ := c.Request.Context().Value(def.XRequestID).(string)
-		got = id
+		got = def.RequestIDFromContext(c.Request.Context())
 		c.Status(http.StatusOK)
 	})
 
@@ -36,8 +35,7 @@ func TestSetV_GeneratesWhenMissing(t *testing.T) {
 	var got string
 	r.Use(SetV)
 	r.GET("/t", func(c *gin.Context) {
-		id, _ := c.Request.Context().Value(def.XRequestID).(string)
-		got = id
+		got = def.RequestIDFromContext(c.Request.Context())
 		c.Status(http.StatusOK)
 	})
 

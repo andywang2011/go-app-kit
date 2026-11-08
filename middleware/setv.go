@@ -1,8 +1,6 @@
 package middleware
 
 import (
-	"context"
-
 	"github.com/andywang2011/go-app-kit/def"
 	"github.com/andywang2011/go-libs/random"
 
@@ -19,7 +17,6 @@ func SetV(c *gin.Context) {
 	}
 	c.Set(def.XRequestID, xRequestID)
 	c.Set("v1", c.Request.URL.Path)
-	ctx := context.WithValue(c.Request.Context(), def.XRequestID, xRequestID)
-	c.Request = c.Request.WithContext(ctx)
+	c.Request = c.Request.WithContext(def.WithRequestID(c.Request.Context(), xRequestID))
 	c.Next()
 }
