@@ -30,6 +30,9 @@ type Options struct {
 	OnNacosChange func(error)
 	// ClientFactory overrides how the Nacos client is built (tests); nil uses go-nacos.
 	ClientFactory NacosClientFactory
+	// SecretKeys overrides DefaultProdSecretKeys when non-empty (e.g. gRPC
+	// processes that validate grpc.auth.token instead of security.blind_index_key).
+	SecretKeys []string
 }
 
 // DefaultOptions returns common bootstrap defaults.
@@ -70,7 +73,7 @@ func RunContext(ctx context.Context, opts Options) error {
 			return err
 		}
 	}
-	return SetupViperFromPath(opts.ConfigDir)
+	return SetupViperFromPath(opts.ConfigDir, opts.SecretKeys...)
 }
 
 // NacosOptions configures remote Nacos sync.
